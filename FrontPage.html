@@ -1437,12 +1437,12 @@
         // You can get one from your Eleven Labs dashboard.
         // NOTE: This is a placeholder. You MUST replace this with your actual Eleven Labs API key.
         const ELEVEN_LABS_API_KEY = "sk_60907acb4b4c0a28d943d3f950cc19324bbd3fb366f68a44";
-        // Voice ID mapping for different personalities
+        // Voice ID mapping for different personalities - Updated with actual voice IDs
         const VOICE_ID_MAPPING = {
-            'Chill Companion': "agent_01jy9gxjs5f0n9vvb4jacrmn1d", // Voice ID for Echo
-            'Supportive Friend': "agent_01jyewtmpcfnebfz3v7xwrvgq5", // Voice ID for Sara
-            'Motivator': "agent_01jyew30r2f729y18xce3q9pwy", // Voice ID for Motivator
-            'Chill Guru': "agent_01jycg8n7tfjd9jvnp34889ths" // Voice ID for Chill Guru
+            'Chill Companion': "pNInz6obpgDQGcFmaJgB", // Adam voice
+            'Supportive Friend': "21m00Tcm4TlvDq8ikWAM", // Rachel voice
+            'Motivator': "AZnzlk1XvdvUeBnXmlld", // Domi voice
+            'Chill Guru': "EXAVITQu4vr4xnSDxMaL" // Bella voice
         };
 
         // Gemini API Configuration
@@ -2169,7 +2169,7 @@ Don't rush — let users lead the pace of depth.`
                 updateButtonStates(); // Update UI buttons (e.g., disable send)
 
                 // Retrieve the specific prompt instructions for the currently selected personality
-                const currentPersonalityPrompt = chatPrompts[selectedPersonality];
+                const currentPersonality Prompt = chatPrompts[selectedPersonality];
 
                 // Combine the personality prompt with the user's message for the AI model
                 const fullPromptForAI = `${currentPersonalityPrompt}\n\nUser says: "${userPrompt}"`;
