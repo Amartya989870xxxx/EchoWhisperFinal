@@ -2169,7 +2169,7 @@ Don't rush — let users lead the pace of depth.`
                 updateButtonStates(); // Update UI buttons (e.g., disable send)
 
                 // Retrieve the specific prompt instructions for the currently selected personality
-                const currentPersonality Prompt = chatPrompts[selectedPersonality];
+                const currentPersonalityPrompt = chatPrompts[selectedPersonality];
 
                 // Combine the personality prompt with the user's message for the AI model
                 const fullPromptForAI = `${currentPersonalityPrompt}\n\nUser says: "${userPrompt}"`;
