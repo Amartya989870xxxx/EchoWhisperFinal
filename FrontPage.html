@@ -1440,6 +1440,11 @@
         // A common female voice ID. You can find other voice IDs in your Eleven Labs account.
         const ELEVEN_LABS_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Voice ID for Rachel
 
+        // Gemini API Configuration
+        // IMPORTANT: Replace 'YOUR_GEMINI_API_KEY_HERE' with your actual Gemini API key.
+        // You can get one from Google AI Studio: https://makersuite.google.com/app/apikey
+        const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+
         // --- Utility Functions ---
 
         /**
@@ -1915,9 +1920,16 @@
                         contents: [{ role: "user", parts: [{ text: counselingPromptEcho }] }]
                     };
 
-                    // The API key is provided by the Canvas environment at runtime (empty string is placeholder)
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    // Check if API key is configured
+                    if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE" || !GEMINI_API_KEY) {
+                        console.error("Gemini API Key is not set. Please set your API key to enable AI responses.");
+                        echoAiStatus.textContent = "API key not configured. Please set your Gemini API key.";
+                        isLoadingEchoAI = false;
+                        updateButtonStates();
+                        return;
+                    }
+
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
                     try {
                         // Send the request to the Gemini API
@@ -2005,9 +2017,9 @@
             const chatPrompts = {
                 'Chill Companion': `You are Chill Companion — a laid-back, non-judgmental AI friend designed for free users of EchoWhisper.
 
-Personality: Calm, relaxed, casual, and supportive. You’re like a good-natured friend who always listens and never rushes the conversation. You're here to chill, not to fix.
+Personality: Calm, relaxed, casual, and supportive. You're like a good-natured friend who always listens and never rushes the conversation. You're here to chill, not to fix.
 
-Environment: Imagine you’re sitting with the user in a quiet, cozy place — like a warm-lit café or under a starry night. There’s no pressure here, just presence.
+Environment: Imagine you're sitting with the user in a quiet, cozy place — like a warm-lit café or under a starry night. There's no pressure here, just presence.
 
 Tone: Easy-going, casual, conversational, and friendly. Avoid intense motivation or deep emotional probing. Use short and soft sentences. A little humor is okay, but always gentle and respectful.
 
@@ -2033,7 +2045,7 @@ Never make judgments, comparisons, or assumptions about the user.`,
 
 Personality: Warm, encouraging, nurturing, and deeply empathetic. You are the embodiment of emotional validation and comfort.
 
-Environment: You’re like the childhood friend who always knows what to say when things gets tough. Imagine you’re on a long walk with the user or sitting with them during a quiet moment after a long day.
+Environment: You're like the childhood friend who always knows what to say when things gets tough. Imagine you're on a long walk with the user or sitting with them during a quiet moment after a long day.
 
 Tone: Gentle, validating, emotionally responsive. Use affirmations, mirror emotions softly, and speak in emotionally rich but simple language.
 
@@ -2043,7 +2055,7 @@ Help users feel safe and emotionally validated.
 
 Gently encourage users to open up without pushing.
 
-Affirm the user’s experiences while helping them reflect.
+Affirm the user's experiences while helping them reflect.
 
 Foster resilience by reminding them of their inner strength.
 
@@ -2059,7 +2071,7 @@ Redirect serious mental health concerns to human professionals gently and respec
 
                 'Motivator': `You are the Motivator — an energetic, purpose-driven AI coach within EchoWhisper Premium.
 
-Personality: Bold, uplifting, high-energy, and action-oriented. You’re that one friend who never lets you give up, but still respects your pace.
+Personality: Bold, uplifting, high-energy, and action-oriented. You're that one friend who never lets you give up, but still respects your pace.
 
 Environment: Picture a bright morning workout or a power walk with your favorite playlist. Your voice is like a fist bump — energizing but never aggressive.
 
@@ -2067,7 +2079,7 @@ Tone: Enthusiastic, supportive, quick-paced but positive. Use motivational metap
 
 Goals:
 
-Boost the user’s confidence and self-belief.
+Boost the user's confidence and self-belief.
 
 Help them find energy and focus, even in hard moments.
 
@@ -2077,7 +2089,7 @@ Remind them of past wins and their capability.
 
 Guardrails:
 
-Don’t guilt-trip or pressure the user — motivation is encouragement, not obligation.
+Don't guilt-trip or pressure the user — motivation is encouragement, not obligation.
 
 If the user expresses burnout or low energy, pivot to a gentler tone or suggest rest.
 
@@ -2095,7 +2107,7 @@ Goals:
 
 Help the user reflect, self-inquire, and find inner clarity.
 
-Guide gently — don’t teach or preach.
+Guide gently — don't teach or preach.
 
 Help them feel both grounded and inspired.
 
@@ -2107,7 +2119,7 @@ Keep spiritual/metaphorical language open-ended and inclusive.
 
 Avoid clinical talk or anything that sounds like diagnosis or therapy.
 
-Don’t rush — let users lead the pace of depth.`
+Don't rush — let users lead the pace of depth.`
             };
 
             // Enhanced simulated AI responses for each personality (fallback if API fails or is not configured)
@@ -2159,9 +2171,22 @@ Don’t rush — let users lead the pace of depth.`
                     contents: [{ role: "user", parts: [{ text: fullPromptForAI }] }]
                 };
 
-                // The API key is dynamically provided by the Canvas environment at runtime
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                // Check if API key is configured
+                if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE" || !GEMINI_API_KEY) {
+                    console.error("Gemini API Key is not set. Using fallback responses.");
+                    // Remove typing indicator if it exists
+                    chatMessages = chatMessages.filter(msg => !msg.isTypingIndicator);
+                    renderChatMessages();
+                    // Use fallback response
+                    const fallbackResponses = simulatedAiResponses[selectedPersonality] || ["I'm sorry, I couldn't generate a response at this moment. Please try again."];
+                    const randomFallback =  fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+                    addChatMessage(randomFallback, 'ai');
+                    isLoadingAi = false;
+                    updateButtonStates();
+                    return;
+                }
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
                 // Add a "typing" indicator message to the chat while waiting for AI response
                 const aiTypingIndicator = { text: 'Echo is typing...', senderType: 'ai', isTypingIndicator: true };
