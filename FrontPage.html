@@ -914,6 +914,19 @@
             box-shadow: 0 0 10px var(--funkyBlue);
             transform: scale(1.2);
         }
+
+        /* Disclaimer message styling */
+        .disclaimer-message {
+            background-color: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #fca5a5;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -1192,6 +1205,13 @@
                     Currently chatting with:
                     <span id="selected-personality-display" class="font-medium text-funky-orange">Chill Companion</span>
                 </p>
+                
+                <!-- Disclaimer Message -->
+                <div class="disclaimer-message">
+                    <p style="color: red; font-size: 12px;">
+                        This AI is not suitable for professional mental health support. If a user sends messages suggesting self-harm, we are not responsible for any outcomes. The AI may give incorrect or inappropriate responses — please seek help from a mental health professional or emergency services.
+                    </p>
+                </div>
             </div>
         </section>
 
